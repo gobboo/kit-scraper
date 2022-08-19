@@ -17,8 +17,6 @@ This is a scraper for this [Kit Image Site](https://beonestore.x.yupoo.com/). It
 * [pip](https://pip.pypa.io/en/stable/)
 
 ## Installing
-1) Extract every file to a folder.
-
 ```bash
 pip install -r requirements.txt
 ```
