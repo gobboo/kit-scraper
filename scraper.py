@@ -48,20 +48,22 @@ class Scraper ():
     def fetch_category_albums (self, category, category_name):
         # First fetch how many pages there are from pagination__jumpwrap
         soup = self.get_soup(category)
-        
+        print('fetched categories soup')
         # Get second to last button from pagination__buttons that includes a number
         last_page = soup.find('span', class_='categories__box-right-pagination-span').text.split(' / ')[-1]
         # Convert to int
         total_pages = int(last_page)
+        print('fetched pages')
     
         # Loop through each page and fetch the albums
         new_albums_length = 0
         existing_albums = self.fetch_existing_albums()
         for page in range(1, total_pages + 1):
             soup = self.get_soup(f'{category}?page={page}')
+            print('fetched soup')
             # Fetch the albums
             albums = soup.find_all('a', class_='album__main')
-            
+            print('found albums')
             for album in albums:
                 # Fetch the album name
                 name = album['title']
