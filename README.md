@@ -19,7 +19,7 @@ This is a scraper for this [Kit Image Site](https://beonestore.x.yupoo.com/). It
 ## Installing
 1) Extract every file to a folder.
 
-2) ```bash
+```bash
 pip install -r requirements.txt
 ```
 **or**
