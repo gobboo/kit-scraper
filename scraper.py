@@ -28,6 +28,7 @@ class Scraper ():
 
     def __init__(self, url):
         self.url = url
+        self.blacklist = ['/categories/', '/categories/276273', '/categories/276334']
         # self.soup = self.get_soup()
         
     def get_soup(self, path):
@@ -91,7 +92,9 @@ class Scraper ():
             category = div.find('a').text
             # Fetch the category url
             url = div.find('a')['href']
-            categories.append({'category': category, 'url': url})
+            
+            if url not in self.blacklist:
+                categories.append({'category': category, 'url': url})
 
         return categories
         
