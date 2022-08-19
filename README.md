@@ -17,6 +17,17 @@ This is a scraper for this [Kit Image Site](https://beonestore.x.yupoo.com/). It
 * [pip](https://pip.pypa.io/en/stable/)
 
 ## Installing
+First extract the contents of the zip file to a folder.
+
+Next open up a terminal and run the following command:
+
+```bash
+cd location/of/extraction/folder
+```
+**Note:** Change `location/of/extraction/folder` to the exact location of where you extracted the contents of the zip file.
+
+
+Once inside the folder, run the following to install the needed modules:
 ```bash
 pip install -r requirements.txt
 ```
