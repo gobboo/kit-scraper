@@ -1,19 +1,25 @@
-### Kit Scraper
+# Kit Scraper
+- [Kit Scraper](#kit-scraper)
+  - [Description](#description)
+  - [Prerequisites](#prerequisites)
+  - [Installing](#installing)
+  - [Usage](#usage)
+  - [License](#license)
 
+
+## Description
 This is a scraper for this [Kit Image Site](https://beonestore.x.yupoo.com/). It uses BeautifulSoup and Multithreading to scrape their entire website's categories & albums to download over 18,000+ images in under 30 minutes. Not useful by nature, was made for a friend to use as a tool to download images for a project.
 
-- [Prerequisits](#prerequisits)
-- [Installing](#installing)
-- [Usage](#usage)
-- [License](#license)
 
-## Prerequisits
+
+## Prerequisites
 * [Python 3.10](https://www.python.org/)
 * [pip](https://pip.pypa.io/en/stable/)
 
 ## Installing
+1) Extract every file to a folder.
 
-```bash
+2) ```bash
 pip install -r requirements.txt
 ```
 **or**
