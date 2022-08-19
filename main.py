@@ -29,8 +29,8 @@ def create_notification (success, message):
     return {'status': success, 'message': message, 'formatted': f'{fg(40 if success else 160)}{"Success" if success else "Error"} | {attr(0)}{message}'}
     
 
-def fetch_albums (category):
-    total = scrape.fetch_category_albums(category)
+def fetch_albums (category, name):
+    total = scrape.fetch_category_albums(category, name)
 
     return total
 
@@ -72,7 +72,7 @@ def main (notification=None):
             
                 # Loop through each category and download all the albums
                 for category in categories:
-                    total = fetch_albums(category['url'])
+                    total = fetch_albums(category['url'], category['category'])
                     
                     # Print a notification after download in color
                     print(f'{fg(40)}{category["category"]} {fg(8)}- {attr(0)}Downloaded {fg(40)}{total} new {fg(8)}albums{attr(0)}')
@@ -92,7 +92,7 @@ def main (notification=None):
                 with concurrent.futures.ThreadPoolExecutor(max_workers=12) as executor:
                     futures = []
                     for album in albums:
-                        futures.append(executor.submit(scrape.fetch_album_images, name=album['name'], album_id=album['url'].split('/')[-1]))
+                        futures.append(executor.submit(scrape.fetch_album_images, name=album['name'], category=album['category'], album_id=album['url'].split('/')[-1]))
                     for future in futures:
                         future.add_done_callback(progress_indicator)
                     # for future in concurrent.futures.as_completed(futures):

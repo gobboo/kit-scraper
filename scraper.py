@@ -45,7 +45,7 @@ class Scraper ():
             return []
         
     
-    def fetch_category_albums (self, category):
+    def fetch_category_albums (self, category, category_name):
         # First fetch how many pages there are from pagination__jumpwrap
         soup = self.get_soup(category)
         
@@ -68,7 +68,9 @@ class Scraper ():
                 # Fetch the album url
                 url = album['href'].split('?')[0]
                 
-                new_album = {'name': name, 'url': url}
+                category_dir = slugify(category_name)
+                
+                new_album = { 'name': name, 'url': url, 'category': category_dir }
                 if new_album not in existing_albums:
                     new_albums_length += 1
                     existing_albums.append(new_album)
@@ -105,10 +107,10 @@ class Scraper ():
             # Convert categories to json string and write to file
             json.dump(categories, f)
     
-    def fetch_existing_images (self, album_id):
+    def fetch_existing_images (self, album_id, category):
         # Read from the images.json file and return the images, if it doesn't exist create an empty list
         try:
-            directory = f'albums/{album_id}'
+            directory = f'albums/{category}/{album_id}'
             if not os.path.exists(directory):
                 os.makedirs(directory)
 
@@ -133,23 +135,23 @@ class Scraper ():
         }
         
         r = requests.get(image['src'], headers=headers)
-        with open(f'albums/{image["album"]}/{image["name"]}', 'wb') as f:
+        with open(f'albums/{image["category"]}/{image["album"]}/{image["name"]}', 'wb') as f:
             f.write(r.content)
         # print(f'{fg(4)}Downloaded {fg(166)}{image["name"]}{attr(0)}')
     
-    def fetch_album_images (self, name, album_id):
+    def fetch_album_images (self, name, category, album_id):
         # Convert name string to a suitable filename
-        dir = slugify(name)    
+        dir = slugify(name)
         
         # Fetch the album images and write them to a json file named images.json
         soup = self.get_soup(f'/albums/{album_id}?uid=1')
         images = soup.find_all('img', class_='image__img')
 
         # Create a list of images
-        existing_images = self.fetch_existing_images(dir)
+        existing_images = self.fetch_existing_images(dir, category)
         images_list = []
         for image in images:
-            image_dict = { 'src': f'https://photo.yupoo.com{image["data-path"]}', 'album': dir, 'name': image['data-path'].split('/')[-1] }
+            image_dict = { 'src': f'https://photo.yupoo.com{image["data-path"]}', 'album': dir, 'category': category, 'name': image['data-path'].split('/')[-1] }
             
             if image_dict not in existing_images:
                 images_list.append(image_dict)
@@ -164,7 +166,7 @@ class Scraper ():
             # Create a directory for the album
         self.download_images_threaded(images_list)
         
-        with open(f'albums/{dir}/images.json', 'w') as f:
+        with open(f'albums/{category}/{dir}/images.json', 'w') as f:
             json.dump(existing_images, f)
         
         return len(images_list)
